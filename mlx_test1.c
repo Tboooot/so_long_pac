@@ -5,15 +5,16 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-typedef struct s_data
-{
-    void *mlx_ptr;
-    void *win_ptr;
-    int color;
+typedef struct s_data {
+  void *mlx_ptr;
+  void *win_ptr;
+  int color;
+  char *img;
+
 } t_data;
 
 // Function for mlx_key_hook
-//int key_simple(int keycode, t_data *data)
+// int key_simple(int keycode, t_data *data)
 //{
 //    printf("\n=== Simple Key Hook ===\n");
 //    printf("Key pressed: %d\n", keycode);
@@ -28,7 +29,7 @@ typedef struct s_data
 //}
 
 // Function for mlx_hook
-//int key_advanced(int keycode, t_data *data)
+// int key_advanced(int keycode, t_data *data)
 //{
 //    printf("\n=== Advanced Hook with Mask ===\n");
 //    printf("Key pressed: %d\n", keycode);
@@ -42,14 +43,14 @@ typedef struct s_data
 //    return (0); sf
 //}
 //
-//int change_color(t_data *data)
+// int change_color(t_data *data)
 //{
 //    static int y_pos = 150;  // Static variable to move text vertically
-//    
+//
 //    mlx_clear_window(data->mlx_ptr, data->win_ptr);
-//    mlx_string_put(data->mlx_ptr, data->win_ptr, 150, y_pos, data->color, 
+//    mlx_string_put(data->mlx_ptr, data->win_ptr, 150, y_pos, data->color,
 //                   "Color Changing Window!");
-//    
+//
 //    // Change color
 //    if (data->color == 0xFF0000)        // Red
 //        data->color = 0x00FF00;         // to Green
@@ -57,33 +58,32 @@ typedef struct s_data
 //        data->color = 0x0000FF;         // to Blue
 //    else
 //        data->color = 0xFF0000;         // to Red
-//    
+//
 //    return (0);
 //}
-//int f(int kysym ,t_data *data)
+// int f(int kysym ,t_data *data)
 //{
 //    printf("press %d\n",kysym);
 //    sleep(1);
 //    return 1;
 //}
-int main(void)
-{
-    VDFV,    
-    "bsdgsdf");
-    t_data data;
+int main(void) {
+  t_data data;
+  int width , height ;
+  data.mlx_ptr = mlx_init();
+  data.win_ptr = mlx_new_window(data.mlx_ptr, 800, 600, "key hook compare");
+  char *path = "./img/pac.xpm";
+  // mlx_key_hook(data.win_ptr, key_simple, &data);
 
-    data.mlx_ptr = mlx_init();
-    data.win_ptr = mlx_new_window(data.mlx_ptr, 800, 600, "key hook compare");
+  // method 2: advanced hook (explicit mask)
+  // mlx_hook(data.win_ptr, keypress, keypressmask, key_advanced, &data);
+  data.color = 0xff0000;
+ // mlx_string_put(data.mlx_ptr, data.win_ptr, 400, 400, 0xffffff, "dada");
 
-   // mlx_key_hook(data.win_ptr, key_simple, &data);
-
-    // method 2: advanced hook (explicit mask)
-    //mlx_hook(data.win_ptr, keypress, keypressmask, key_advanced, &data);
-        data.color = 0xff0000;
-    mlx_string_put(data.mlx_ptr , data.win_ptr , 400 ,400 ,0xffffff,"dada");
-    
-    //   mlx_key_hook(data.mlx_ptr , f, &data);
-    //mlx_loop_hook(data.mlx_ptr ,change_color,&data); 
-    mlx_loop(data.mlx_ptr);
-    return (0);
+  data.img = mlx_xpm_file_to_image( data.mlx_ptr,path, &width ,&height);
+  mlx_put_image_to_window(data.mlx_ptr , data.win_ptr,path,0,0);
+  //   MLX_KEY_HOOK(DATA.MLX_PTR , F, &DATA);
+  // mlx_loop_hook(data.mlx_ptr ,change_color,&data);
+  mlx_loop(data.mlx_ptr);
+  return (0);
 }
