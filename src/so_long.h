@@ -4,6 +4,7 @@
 #include "../libft/libft.h"
 #include "../minilibx-linux/mlx.h"
 
+#include <stdlib.h>
 #include <fcntl.h>
 
 typedef struct s_img 
@@ -56,5 +57,6 @@ void	move_down(t_game *game);
 void	move_left(t_game *game);
 void	move_right(t_game *game);
 
+void	free_grid(t_game *game);
 
 #endif
