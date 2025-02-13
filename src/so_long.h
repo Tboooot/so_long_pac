@@ -57,6 +57,5 @@ void	move_down(t_game *game);
 void	move_left(t_game *game);
 void	move_right(t_game *game);
 
-void	free_grid(t_game *game);
-
+void ft_free_grid(char **matrix);
 #endif
