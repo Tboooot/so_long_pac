@@ -49,5 +49,7 @@ int main(int ac , char *av[])
 				}
 				define_game(&game);
 				init_map(av[1],&game);
+					init_game(&game);
+	return(0);
 
 }
