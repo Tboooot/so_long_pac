@@ -67,4 +67,10 @@ void init_window(t_game *game)
 void init_game(t_game *game)
 {
 	init_window(game);
+	ft_printf("\r\033[0;31mMoves:\033[0;33m %d\033[0m", game->moves);
+	init_sprites(game);
+	mlx_loop_hook(game->id , loop_hook, game);
+	mlx_key_hook(game->win, key_hook , game);
+	mlx_hook(game->win , 17 , 0,clean_before_exit,game);
+	mlx_loop(game->id);	
 }
