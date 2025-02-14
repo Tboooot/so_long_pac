@@ -98,7 +98,7 @@ int	ft_putnbr_hexa_lower(unsigned long n);
 int	ft_putnbr_hexa_upper(unsigned long n);
 int	ft_putnbr_unsigned(unsigned int n);
 int	ft_putstr(char *str);
-int	ft_strlen(char *str);
+int	ft_strlen_o(char *str);
 int	ft_pointer(void *ptr);
 int	ft_printf(const char *format, ...);
 

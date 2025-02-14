@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "../libft.h"
 
 int	ft_putstr(char *str)
 {
@@ -21,7 +21,7 @@ int	ft_putstr(char *str)
 		write(1, "(null)", 6);
 		return (6);
 	}
-	x = ft_strlen(str);
+	x = ft_strlen_o(str);
 	while (*str)
 	{
 		write(1, str, 1);

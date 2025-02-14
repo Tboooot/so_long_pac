@@ -15,7 +15,7 @@ HEAD		= libft.h
 
 
 
-FT_PRINTF_SRC = 	  ft_pointer.c ft_printf.c ft_putchar.c ft_putnbr.c ft_putnbr_hexa_lower.c ft_putnbr_hexa_upper.c ft_putnbr_unsigned.c ft_putstr.c ft_strlen.c
+FT_PRINTF_SRC = 	  ft_pointer.c ft_printf.c ft_putchar.c ft_putnbr.c ft_putnbr_hexa_lower.c ft_putnbr_hexa_upper.c ft_putnbr_unsigned.c ft_putstr.c ft_strlen_o.c
 
 INC =		-I. -Ift_printf
 FT_PRINTF_DIR = ft_printf
