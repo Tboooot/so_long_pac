@@ -7,6 +7,14 @@
 #include <stdlib.h>
 #include <fcntl.h>
 
+enum s_move
+{
+	ESC = 65307,
+	LEFT = 65361,
+	UP,
+	RIGHT,
+	DOWN
+};
 typedef struct s_img 
 {
 				void *exit_open;
@@ -24,7 +32,7 @@ typedef struct s_map
 				int n_col;
 				int p;
 				int c;
-				int e
+				int e;
 }t_map;
 
 
