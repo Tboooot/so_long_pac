@@ -51,10 +51,10 @@ typedef struct s_game
 				int size;
 }t_game;
 
-
 void init_map(char *filename ,t_game *game);
 void validate_map_sides(t_map *map);
 void validate_map_attributes(t_map *map);
+int validate_flood(t_map *map);
 void init_game(t_game *game);
 int loop_hook(t_game *game);
 void render_map(t_game *game);

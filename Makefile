@@ -21,7 +21,8 @@ SRCS		= main.c \
 			  render.c \
 			  controls.c \
 			  movement.c \
-			  cleanup.c
+			  cleanup.c \
+			  valid_flood.c \
 
 # Object Files
 OBJS		= $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))

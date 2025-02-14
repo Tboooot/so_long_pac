@@ -88,5 +88,9 @@ void init_map(char *file_name , t_game *game)
 	get_map_dimension(&game->map);
 	validate_map_attributes(&game->map);
 	validate_map_sides(&game->map);
-
+	if(!validate_flood(&game->map))
+	{
+		ft_free_grid(game->map.grid);
+		exit(1);
+	}
 }
