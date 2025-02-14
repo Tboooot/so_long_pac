@@ -1,69 +1,96 @@
-
-.PHONY	= all bonus clean fclean re
-
+# Project Name
 NAME		= so_long
+
+# Compiler and Flags
 CC			= clang
-CFLAGS		= -Wall -Wextra -Werror
-HEADER		= so_long.h
+CFLAGS		= -Wall -Wextra -Werror -g
 
+# Directories
+SRC_DIR		= src
+OBJ_DIR		= obj
+LIBFT_DIR	= libft
+MLX_DIR		= mlx
 
-LIBFT	= libft.a
-MLX		= mlx.a
-IFT		= -Ilibft -Llibft -lft
-IMLX	= -Imlx -Lmlx -lmlx -lXext -lX11
+# Source Files
+SRCS		= main.c \
+			  map.c \
+			  validate_sides.c \
+			  validate_attributes.c \
+			  init.c \
+			  events.c \
+			  render.c \
+			  controls.c \
+			  movement.c \
+			  cleanup.c
 
-SRCS	= \
-	main.c \
-	map.c \
-	validate_sides.c \
-	validate_attributes.c \
-	init.c \
-	events.c \
-	render.c \
-	controls.c \
-	movement.c \
-	ft_alt_gnl.c \
-	cleanup.c
+# Object Files
+OBJS		= $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
 
+# Libraries
+LIBFT		= $(LIBFT_DIR)/libft.a
+LIBFTPRINTF	= $(LIBFT_DIR)/ft_printf/libftprintf.a
+MLX			= $(MLX_DIR)/libmlx.a
 
-OBJSDIR	= obj
-OBJS	= $(addprefix ${OBJSDIR}/, ${SRCS:%.c=%.o})
+# Include and Library Flags
+INCLUDES	= -I$(LIBFT_DIR) -I$(MLX_DIR)
+LIBS		= -L$(LIBFT_DIR) -lft -L$(LIBFT_DIR)/ft_printf -lftprintf \
+			  -L$(MLX_DIR) -lmlx -lXext -lX11
 
-all: ${NAME}
+# Color codes
+RED			= \033[0;31m
+GREEN		= \033[0;32m
+YELLOW		= \033[0;33m
+NC			= \033[0m # No Color
 
-${NAME}: ${OBJSDIR} ${OBJS}
-	${CC} ${CFLAGS} ${OBJS} ${IFT} ${IMLX} -o $@
+# Main Rules
+all: $(NAME)
 
+$(NAME): $(OBJ_DIR) $(LIBFT) $(LIBFTPRINTF) $(MLX) $(OBJS)
+	@echo "$(YELLOW)Linking $(NAME)...$(NC)"
+	@$(CC) $(OBJS) $(LIBS) -o $(NAME)
+	@echo "$(GREEN)$(NAME) successfully compiled!$(NC)"
 
+# Create object directory
+$(OBJ_DIR):
+	@mkdir -p $(OBJ_DIR)
 
-${OBJSDIR}:
-	mkdir -p $@
+# Compile source files
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@echo "$(YELLOW)Compiling $<...$(NC)"
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-${OBJS}: | ${LIBFT} ${MLX}
+# Compile libraries
+$(LIBFT):
+	@echo "$(YELLOW)Building libft...$(NC)"
+	@$(MAKE) -C $(LIBFT_DIR)
 
+$(LIBFTPRINTF):
+	@echo "$(YELLOW)Building ft_printf...$(NC)"
+	@$(MAKE) -C $(LIBFT_DIR)/ft_printf
 
-${OBJSDIR}/%.o: src/%.c src/so_long.h Makefile
-	${CC} ${CFLAGS} -c $< -o $@
+$(MLX):
+	@echo "$(YELLOW)Building MLX...$(NC)"
+	@$(MAKE) -C $(MLX_DIR)
 
-
-
-${LIBFT}: | libft
-	${MAKE} -C libft/
-
-${MLX}: | mlx
-	${MAKE} -C mlx/
-
-
-
-mlx:
-	git clone https://github.com/42Paris/minilibx-linux.git mlx
-
+# Clean rules
 clean:
-	${MAKE} clean -C libft
-	${MAKE} clean -C mlx
-	rm -rf ${OBJSDIR}
+	@echo "$(RED)Cleaning object files...$(NC)"
+	@rm -rf $(OBJ_DIR)
+	@$(MAKE) -C $(LIBFT_DIR) clean
+	@$(MAKE) -C $(LIBFT_DIR)/ft_printf clean
+	@$(MAKE) -C $(MLX_DIR) clean
 
 fclean: clean
-	rm -rf libft mlx ${NAME} 
+	@echo "$(RED)Cleaning everything...$(NC)"
+	@rm -f $(NAME)
+	@$(MAKE) -C $(LIBFT_DIR) fclean
+	@$(MAKE) -C $(LIBFT_DIR)/ft_printf fclean
+	@rm -f $(MLX)
 
 re: fclean all
+
+# Clone MLX if not exists
+mlx:
+	git clone https://github.com/42Paris/minilibx-linux.git $(MLX_DIR)
+
+.PHONY: all clean fclean re mlx

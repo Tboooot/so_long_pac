@@ -80,7 +80,7 @@ t_list				*ft_lstnew(char *data);
 void				ft_lstclean_up(struct s_list **list,
 						struct s_list *new_node, char *new_data);
 void				ft_lstadd_back(struct s_list **lst, struct s_list *new);
-char				*ft_strdup(const char *s);
+char				*ft_strdup_o(const char *s);
 char				*found_newline(struct s_list *list);
 void				add_line_to_list(struct s_list **list, int fd);
 char				*construct_line(struct s_list *list);

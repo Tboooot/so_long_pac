@@ -28,12 +28,13 @@ void valdate_rghit_left(char **grid, int row, int col)
 	invalid = 0;
 	while(++i > row && grid[i][0])
 		if(grid[i][0] != '1')
-			invalid++;
+			  invalid++;
 	col--;
 	while(i-- > row && grid[0][col])
 		if(grid[i][col] != '1')
-			if(!invalid)
-				return;
+			invalid++;
+	if (!invalid)
+		return ;
 	ft_printf("ERROR\n Invalid left/rghit map side \n");
 	ft_free_grid(grid);
 	exit(1);

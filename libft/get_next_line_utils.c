@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-char	*ft_strdup(const char *s)
+char	*ft_strdup_o(const char *s)
 {
 	char	*copy;
 	int		i;
@@ -65,7 +65,7 @@ struct s_list	*ft_lstnew(char *data)
 	new_node = (struct s_list *)malloc(sizeof(struct s_list));
 	if (!new_node)
 		return (NULL);
-	new_node->data = ft_strdup(data);
+	new_node->data = ft_strdup_o(data);
 	if (!new_node->data)
 	{
 		free(new_node);
