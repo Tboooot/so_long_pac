@@ -1,133 +1,59 @@
-
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: frosa-ma <frosa-ma@student.42sp.org.br>    +#+  +:+       +#+         #
+#    By: mtarza <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/04/07 17:12:17 by frosa-ma          #+#    #+#              #
-#    Updated: 2022/08/21 21:53:43 by frosa-ma         ###   ########.fr        #
+#    Created: 2024/11/05 15:59:15 by mtarza            #+#    #+#              #
+#    Updated: 2024/11/06 18:04:59 by mtarza           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-.PHONY	= all clean fclean re bonus
+SRCS			= ft_memset.c ft_bzero.c ft_memcpy.c ft_memmove.c ft_memchr.c ft_memcmp.c ft_strlen.c ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c ft_toupper.c ft_tolower.c ft_strchr.c ft_strrchr.c ft_strncmp.c ft_strlcpy.c ft_strlcat.c ft_strnstr.c ft_atoi.c ft_calloc.c ft_strdup.c ft_substr.c ft_strjoin.c ft_strtrim.c ft_split.c ft_itoa.c ft_strmapi.c ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c ft_striteri.c get_next_line.c  get_next_line_utils.c
+HEAD		= libft.h
 
-NAME	= libft.a
-CC		= clang
-INC		= -Ift_printf
-CFLAGS	= -Wall -Wextra -Werror
 
-PRINTF_SRCS	= \
-	ft_printf.c \
-	ft_printf_utils.c \
-	dot_disp.c \
-	dot_wr.c \
-	dot.c \
-	minus_disp.c \
-	minus_wr.c \
-	minus.c \
-	space_disp.c \
-	space_wr.c \
-	space.c \
-	zero_disp.c \
-	zero_wr.c \
-	zero.c \
-	sharp.c \
-	plus.c \
 
-SRCS	= \
-	ft_isalpha.c \
-	ft_isdigit.c \
-	ft_isalnum.c \
-	ft_isascii.c \
-	ft_isprint.c \
-	ft_isspace.c \
-	ft_strlen.c \
-	ft_memset.c \
-	ft_bzero.c \
-	ft_memcpy.c \
-	ft_memmove.c \
-	ft_strlcpy.c \
-	ft_strlcat.c \
-	ft_toupper.c \
-	ft_tolower.c \
-	ft_strchr.c \
-	ft_strrchr.c \
-	ft_strncmp.c \
-	ft_memchr.c \
-	ft_memcmp.c \
-	ft_strnstr.c \
-	ft_atoi.c \
-	ft_atoll.c \
-	ft_calloc.c \
-	ft_strdup.c \
-	ft_substr.c \
-	ft_strjoin.c \
-	ft_strtrim.c \
-	ft_split.c \
-	ft_itoa.c \
-	ft_strmapi.c \
-	ft_striteri.c \
-	ft_putchar_fd.c \
-	ft_putstr_fd.c \
-	ft_putendl_fd.c \
-	ft_putnbr_fd.c \
-	ft_putchar.c \
-	ft_putstr.c \
-	ft_putnbr.c \
-	ft_putunbr.c \
-	ft_putnbr_hex.c \
-	ft_ultoa.c \
-	ft_utoab.c \
-	ft_utoa.c \
-	ft_putptr.c \
-	ft_putnstr.c \
-	ft_strjoins.c \
-	ft_lstnew.c \
-	ft_lstadd_front.c \
-	ft_lstsize.c \
-	ft_lstlast.c \
-	ft_lstadd_back.c \
-	ft_lstdelone.c \
-	ft_lstclear.c \
-	ft_lstiter.c \
-	ft_lstmap.c \
-	ft_lstpop.c \
-	ft_lstdel.c \
-	ft_free_matrix.c \
-	ft_gnl.c \
-	ft_dlstadd_back.c \
-	ft_dlstadd_front.c \
-	ft_dlstlast.c \
-	ft_dlsthead.c \
-	ft_dlstnew.c
+FT_PRINTF_SRC = 	  ft_pointer.c ft_printf.c ft_putchar.c ft_putnbr.c ft_putnbr_hexa_lower.c ft_putnbr_hexa_upper.c ft_putnbr_unsigned.c ft_putstr.c ft_strlen.c
 
-OBJSDIR	= obj
-OBJS	= $(addprefix ${OBJSDIR}/, ${SRCS:%.c=%.o})
+INC =		-I. -Ift_printf
+FT_PRINTF_DIR = ft_printf
 
-all: ${NAME}
+FT_PRINTF_NAME = libftprintf.a
+NAME		= libft.a
 
-${NAME}: ${OBJSDIR} ${OBJS}
-	ar -rcs $@ $</*.o
-	${MAKE} -C ft_printf/
-	ar -rs $@ ft_printf/obj/*.o
-	rm -rf ft_printf/libftprintf.a
+CC			= cc
+RM			= rm -f
+AR			= ar rcs
 
-${OBJSDIR}:
-	mkdir -p $@
+CFLAGS			= -Wall -Wextra -Werror 
 
-${OBJSDIR}/%.o: %.c
-	${CC} ${CFLAGS} -c $< -o $@
+OBJ = $(SRCS:.c=.o)
+PRINTF_OBJ = $(addprefix $(FT_PRINTF_DIR)/, $(FT_PRINTF_SRC:.c=.o))
 
-bonus: all
+
+
+all:		$(NAME) $(FT_PRINTF_NAME)
+
+$(NAME):	${OBJ}
+			${AR} ${NAME} ${OBJ}
+
+$(FT_PRINTF_NAME) : ${PRINTF_OBJ}
+			${AR} ${FT_PRINTF_NAME} ${PRINTF_OBJ}
+
+%.o: %.c
+		${CC} ${CFLAGS} ${INC} -c $< -o $@
+	
+$(FT_PRINTF_DIR)/%.o : $(FT_PRINTF_DIR)/%.c 
+			${CC} ${CFLAGS} ${INC} -c $< -o $@
 
 clean:
-	${MAKE} fclean -C ft_printf
-	rm -rf ${OBJSDIR}
+			${RM} ${OBJ} ${PRINTF_OBJ}
 
-fclean: clean
-	rm -rf ${NAME}
+fclean:		clean
+	${RM} $(NAME) ${FT_PRINTF_NAME}
 
-re: fclean all
+re:			fclean all
 
+.PHONY:		all bonus clean fclean re

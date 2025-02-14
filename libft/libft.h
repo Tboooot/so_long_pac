@@ -17,12 +17,25 @@
 # include <unistd.h>
 # include <limits.h>
 # include <stddef.h>
+# include <stdarg.h>
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 10
+# endif
+
+# if BUFFER_SIZE < 0
+#  undef BUFFER_SIZE
+#  define BUFFER_SIZE 0
+# endif
+
+
 
 typedef struct s_list
 {
-	void			*content;
+	char			*data;
 	struct s_list	*next;
 }					t_list;
+
 
 int					ft_isalpha(int c);
 int					ft_isdigit(int c);
@@ -59,15 +72,35 @@ void				ft_putchar_fd(char c, int fd);
 void				ft_putstr_fd(char *s, int fd);
 void				ft_putendl_fd(char *s, int fd);
 void				ft_putnbr_fd(int n, int fd);
-t_list				*ft_lstnew(void *content);
-void				ft_lstadd_front(t_list **lst, t_list *new);
-int					ft_lstsize(t_list *lst);
-t_list				*ft_lstlast(t_list *lst);
-void				ft_lstadd_back(t_list **lst, t_list *new);
-void				ft_lstdelone(t_list *lst, void (*del)(void *));
-void				ft_lstclear(t_list **lst, void (*del)(void *));
-void				ft_lstiter(t_list *lst, void (*f)(void *));
-t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
-						void (*del)(void *));
+
+
+
+//get_next_line
+t_list				*ft_lstnew(char *data);
+void				ft_lstclean_up(struct s_list **list,
+						struct s_list *new_node, char *new_data);
+void				ft_lstadd_back(struct s_list **lst, struct s_list *new);
+char				*ft_strdup(const char *s);
+char				*found_newline(struct s_list *list);
+void				add_line_to_list(struct s_list **list, int fd);
+char				*construct_line(struct s_list *list);
+int					get_line_length(struct s_list *list);
+void				next_line(struct s_list **list);
+char				*get_next_line(int fd);
+
+
+
+
+// ft_printf
+int	ft_putchar(char c);
+int	ft_putnbr(int n);
+int	ft_putnbr_hexa_lower(unsigned long n);
+int	ft_putnbr_hexa_upper(unsigned long n);
+int	ft_putnbr_unsigned(unsigned int n);
+int	ft_putstr(char *str);
+int	ft_strlen(char *str);
+int	ft_pointer(void *ptr);
+int	ft_printf(const char *format, ...);
+
 
 #endif
