@@ -24,6 +24,13 @@ typedef struct s_img
 				void *collect;
 }t_img;
 
+typedef struct s_point
+{
+    int x;
+    int y;
+    int c;  // Used for collectibles count in flood fill
+    int e;  // Used for exit found flag in flood fill
+} t_point;
 
 typedef struct s_map
 {
