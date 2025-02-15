@@ -36,45 +36,7 @@ static void update_player_coordinates(t_game *game)
 
 static int is_valid_move(t_game *game, char dir)
 {
-    // First check if game is not in end state
-    if (!game->end)
-    {
-        // Check for walls and exit when game is not finished
-        if (dir == 'N' && game->y > 0)
-            return (!ft_strchr("1", game->map.grid[game->y - 1][game->x]));
-        if (dir == 'S' && game->y < game->map.n_row - 1)
-            return (!ft_strchr("1", game->map.grid[game->y + 1][game->x]));
-        if (dir == 'W' && game->x > 0)
-            return (!ft_strchr("1", game->map.grid[game->y][game->x - 1]));
-        if (dir == 'E' && game->x < game->map.n_col - 1)
-            return (!ft_strchr("1", game->map.grid[game->y][game->x + 1]));
-        return (0);
-    }
-
-    // If game is finished, check if player can exit
-    if (is_exit(game, dir))
-    {
-        if (game->total_collect == 0)  // All collectibles collected
-        {
-            clean_before_exit(game);  // End the game
-            return (0);
-        }
-        else
-        {
-            // Temporarily disable the exit by changing 'E' to '0'
-            if (dir == 'N')
-                game->map.grid[game->y - 1][game->x] = '0';
-            else if (dir == 'S')
-                game->map.grid[game->y + 1][game->x] = '0';
-            else if (dir == 'W')
-                game->map.grid[game->y][game->x - 1] = '0';
-            else if (dir == 'E')
-                game->map.grid[game->y][game->x + 1] = '0';
-            return (1);  // Allow moving onto the exit
-        }
-    }
-
-    // Only check for walls when game is finished
+    // Check for walls and exit
     if (dir == 'N' && game->y > 0)
         return (!ft_strchr("1", game->map.grid[game->y - 1][game->x]));
     if (dir == 'S' && game->y < game->map.n_row - 1)
@@ -104,37 +66,81 @@ void move_player(int key, t_game *game)
 
     if ((key == 'w' || key == UP) && is_valid_move(game, 'N'))
     {
-        if (is_exit(game, 'N') && game->total_collect > 0)
+        if (is_exit(game, 'N'))
         {
-            prev_exit_y = game->y - 1;
-            prev_exit_x = game->x;
+            if (game->collect == game->total_collect)  // All collectibles collected
+            {
+                ft_printf("You win! Exiting the game...\n");
+                clean_before_exit(game);  // End the game
+                return;
+            }
+            else
+            {
+                // Temporarily disable the exit by changing 'E' to '0'
+                game->map.grid[game->y - 1][game->x] = '0';
+                prev_exit_y = game->y - 1;
+                prev_exit_x = game->x;
+            }
         }
         move_up(game);
     }
     else if ((key == 's' || key == DOWN) && is_valid_move(game, 'S'))
     {
-        if (is_exit(game, 'S') && game->total_collect > 0)
+        if (is_exit(game, 'S'))
         {
-            prev_exit_y = game->y + 1;
-            prev_exit_x = game->x;
+            if (game->collect == game->total_collect)  // All collectibles collected
+            {
+                ft_printf("You win! Exiting the game...\n");
+                clean_before_exit(game);  // End the game
+                return;
+            }
+            else
+            {
+                // Temporarily disable the exit by changing 'E' to '0'
+                game->map.grid[game->y + 1][game->x] = '0';
+                prev_exit_y = game->y + 1;
+                prev_exit_x = game->x;
+            }
         }
         move_down(game);
     }
     else if ((key == 'a' || key == LEFT) && is_valid_move(game, 'W'))
     {
-        if (is_exit(game, 'W') && game->total_collect > 0)
+        if (is_exit(game, 'W'))
         {
-            prev_exit_y = game->y;
-            prev_exit_x = game->x - 1;
+            if (game->collect == game->total_collect)  // All collectibles collected
+            {
+                ft_printf("You win! Exiting the game...\n");
+                clean_before_exit(game);  // End the game
+                return;
+            }
+            else
+            {
+                // Temporarily disable the exit by changing 'E' to '0'
+                game->map.grid[game->y][game->x - 1] = '0';
+                prev_exit_y = game->y;
+                prev_exit_x = game->x - 1;
+            }
         }
         move_left(game);
     }
     else if ((key == 'd' || key == RIGHT) && is_valid_move(game, 'E'))
     {
-        if (is_exit(game, 'E') && game->total_collect > 0)
+        if (is_exit(game, 'E'))
         {
-            prev_exit_y = game->y;
-            prev_exit_x = game->x + 1;
+            if (game->collect == game->total_collect)  // All collectibles collected
+            {
+                ft_printf("You win! Exiting the game...\n");
+                clean_before_exit(game);  // End the game
+                return;
+            }
+            else
+            {
+                // Temporarily disable the exit by changing 'E' to '0'
+                game->map.grid[game->y][game->x + 1] = '0';
+                prev_exit_y = game->y;
+                prev_exit_x = game->x + 1;
+            }
         }
         move_right(game);
     }
