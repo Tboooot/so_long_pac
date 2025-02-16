@@ -2,7 +2,6 @@
 
 static void check_win_condition(t_game *game)
 {
-    // Check if all collectibles are gathered
     if (game->collect == game->total_collect)
     {
         game->end = 1;

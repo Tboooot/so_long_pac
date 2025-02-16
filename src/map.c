@@ -2,30 +2,31 @@
 //27
 void get_map_dimension(t_map *map)
 {
-	int (i),(j);
+	int (j) , (i) ;
 
+		j = 0;
+		while(map->grid[0][j])
+		{
+			j++;
+		}
+		map->n_col = j;
 	i = 0;
 	while(map->grid[i])
 	{
 		j = 0;
-		while(map->grid[i][j++])
-			map->n_col++;
+		while(map->grid[i][j])
+		{
+			j++;
+		}
+		if(map->grid[i][j] != map->n_col )
+			{
+			ft_free_grid(map->grid);
+			ft_printf("error not rectongle");
+			exit(1);
+		}
 		i++;
 	}
-	map->n_row = i;
-	if(!map->n_row)
-	{
-		ft_printf("Error \n Empty map file\n");
-		ft_free_grid(map->grid);
-		exit(1);
-	}
-	map->n_col /= map->n_row;
-	if (map->n_col < 3 || map->n_row < 3 || map->n_col == map->n_row)
-	{
-		ft_printf("Error \nInvalid mpa dimension\n");
-		ft_free_grid(map->grid);
-		exit(1); 
-	}
+	map->n_row  = i;
 }
 int check_fd(char *file_name , char *buffer)
 {
@@ -78,6 +79,7 @@ void read_map(char *file_name , char *buffer , t_game *game)
 	free(buffer);
 	close(fd);
 }
+
 
 void init_map(char *file_name , t_game *game)
 {
